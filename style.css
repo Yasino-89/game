@@ -633,11 +633,12 @@ body {
     line-height: 1;
 }
 .amount-currency {
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 700;
     color: #5c3a02;
     display: block;
-    margin-top: 6px;
+    margin-top: 4px;
+    letter-spacing: 0.5px;
 }
 .amount-msg {
     font-size: 18px;

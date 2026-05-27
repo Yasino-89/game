@@ -16,16 +16,16 @@ const MEMBERS = {
         name: 'ألما',
         emoji: '🌸',
         greeting: 'يا أميرة بابا',
-        // مئة بالضبط
-        drawAmount: () => 100,
+        // 80 إلى 120 عشوائي
+        drawAmount: () => 80 + Math.floor(Math.random() * 41),
         message: 'صحة وسعادة يا قلبي 🌷'
     },
     aws: {
         name: 'أوس',
         emoji: '🦁',
         greeting: 'يا فارس بابا',
-        // مئة بالضبط
-        drawAmount: () => 100,
+        // 80 إلى 120 عشوائي
+        drawAmount: () => 80 + Math.floor(Math.random() * 41),
         message: 'كبير وقوي يا بطل ⚔️'
     }
 };
@@ -340,7 +340,7 @@ function startColorReveal(amount) {
 // ===== المرحلة 4: النهاية والتحدي =====
 function showFinal(amount, color) {
     showStage('final');
-    document.getElementById('finalAmount').textContent = `${amount} شيكل`;
+    document.getElementById('finalAmount').textContent = `${amount} ريال قطري`;
     const finalColorEl = document.getElementById('finalColor');
     finalColorEl.textContent = color.name;
     finalColorEl.style.setProperty('--final-color', color.hex);
