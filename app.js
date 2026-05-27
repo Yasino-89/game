@@ -379,4 +379,33 @@ function showFinal(amount, color) {
     spawnConfetti(150, [color.hex, '#e0b34a', '#fce8a4', '#fff8e7', '#1e7a5a']);
     setTimeout(() => spawnConfetti(80, [color.hex, '#e0b34a']), 400);
     fanfare();
+
+    // احفظ النتيجة على بطاقة العضو
+    saveCardResult(modal.dataset.member, amount, color);
 }
+
+// ===== حفظ النتيجة على بطاقة العضو =====
+function saveCardResult(memberKey, amount, color) {
+    const card = document.querySelector(`.card[data-member="${memberKey}"]`);
+    if (!card) return;
+    card.querySelector('.draw-btn').style.display = 'none';
+    const result = card.querySelector('.card-result');
+    result.querySelector('.result-amount').textContent = amount;
+    const swatch = result.querySelector('.result-swatch');
+    swatch.style.setProperty('--result-color', color.hex);
+    result.querySelector('.result-color-name').textContent = color.name;
+    result.querySelector('.result-mission').textContent = `🛍️ اشتر شي ${color.name} تحبه ويكون خاص فيك`;
+    result.classList.remove('hidden');
+}
+
+// ===== زر إعادة السحب على بطاقة العضو =====
+document.querySelectorAll('.redraw-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const card = btn.closest('.card');
+        card.querySelector('.card-result').classList.add('hidden');
+        card.querySelector('.draw-btn').style.display = '';
+        openModal(card.dataset.member);
+        chime();
+    });
+});

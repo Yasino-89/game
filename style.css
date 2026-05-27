@@ -379,6 +379,88 @@ body {
 
 .btn-text { position: relative; z-index: 1; }
 
+/* ===== بطاقة النتيجة داخل بطاقة العضو ===== */
+.card-result {
+    margin-top: 4px;
+    padding: 18px 16px 14px;
+    border-radius: 18px;
+    background: linear-gradient(160deg, rgba(255,248,231,0.12), rgba(11,61,46,0.5));
+    border: 1.5px solid var(--accent);
+    animation: stageIn 0.5s ease-out;
+    text-align: center;
+}
+.card-result.hidden { display: none; }
+
+.result-amount-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.result-amount {
+    font-family: 'Reem Kufi', 'Cairo', sans-serif;
+    font-size: 42px;
+    font-weight: 800;
+    color: var(--accent-2);
+    line-height: 1;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+.result-currency {
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(255, 248, 231, 0.75);
+}
+
+.result-color-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(11, 61, 46, 0.5);
+    border: 1px solid rgba(224, 179, 74, 0.3);
+    margin-bottom: 12px;
+}
+.result-swatch {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--result-color, #fff);
+    border: 2px solid var(--eid-gold);
+    box-shadow: 0 0 10px var(--result-color, #fff);
+}
+.result-color-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--eid-cream);
+}
+
+.result-mission {
+    font-size: 13px;
+    line-height: 1.6;
+    color: rgba(255, 248, 231, 0.85);
+    margin: 4px 0 14px;
+    padding: 10px;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.18);
+}
+
+.redraw-btn {
+    width: 100%;
+    padding: 10px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--eid-cream);
+    background: rgba(255, 248, 231, 0.08);
+    border: 1px solid rgba(255, 248, 231, 0.25);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.redraw-btn:hover { background: rgba(255, 248, 231, 0.18); }
+
 /* ===== الفوتر ===== */
 .foot {
     position: relative;
