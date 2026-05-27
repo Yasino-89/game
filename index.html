@@ -1,75 +1,197 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لعبة كتابة المتباينات</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            background: linear-gradient(to bottom, #6a11cb, #2575fc);
-            color: white;
-            font-family: 'Arial', sans-serif;
-        }
-        .animate-bounce {
-            animation: bounce 1s infinite;
-        }
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-    </style>
+    <meta name="theme-color" content="#0b3d2e">
+    <title>عيديات فنوميدو · عيد أضحى مبارك</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cairo:wght@400;600;800;900&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center">
-    <header class="text-center">
-        <h1 class="text-4xl font-bold mb-4">لعبة كتابة المتباينات</h1>
-    </header>
+<body>
 
-    <div class="flex justify-between items-center w-96 mt-4">
-        <div id="score" class="text-lg font-bold">النقاط: 0</div>
-        <div id="high-score" class="text-lg font-bold">أعلى النقاط: 0</div>
-        <div id="timer" class="text-lg font-bold">الوقت: 30 ثانية</div>
+    <!-- ===== خلفية متحركة ===== -->
+    <div class="bg-layer">
+        <div class="pattern"></div>
+        <div class="glow glow-1"></div>
+        <div class="glow glow-2"></div>
+        <div class="glow glow-3"></div>
+        <div class="stars" id="stars"></div>
+        <svg class="moon" viewBox="0 0 100 100" aria-hidden="true">
+            <defs>
+                <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#fff8d6" stop-opacity="0.9"/>
+                    <stop offset="100%" stop-color="#f5d76e" stop-opacity="0"/>
+                </radialGradient>
+            </defs>
+            <circle cx="50" cy="50" r="48" fill="url(#moonGlow)"/>
+            <path d="M70 20 A 35 35 0 1 0 70 80 A 28 28 0 1 1 70 20 Z" fill="#fef3c7"/>
+        </svg>
+        <div class="lantern lantern-1">🏮</div>
+        <div class="lantern lantern-2">🏮</div>
     </div>
 
-    <main class="bg-white text-black p-6 rounded-xl shadow-lg w-96 mt-6">
-        <p id="question" class="text-xl font-semibold text-center">السؤال سيظهر هنا...</p>
+    <canvas id="confetti"></canvas>
 
-        <div class="flex items-center justify-center gap-4 mt-6">
-            <input type="text" id="variable" maxlength="1" class="w-20 border border-gray-300 rounded-lg px-3 py-2 text-center text-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="x">
-            <div id="selected-symbol" class="w-16 h-16 bg-gray-200 flex items-center justify-center rounded-full text-2xl font-bold text-gray-700">
-                ؟
+    <!-- ===== الترويسة ===== -->
+    <header class="hero">
+        <div class="eid-badge">
+            <span>عيد أضحى مبارك</span>
+            <span class="dot">·</span>
+            <span>كل عام وأنتم بخير</span>
+        </div>
+        <h1 class="title">
+            <span class="title-decor">۞</span>
+            عيديات
+            <span class="title-name">فنوميدو</span>
+            <span class="title-decor">۞</span>
+        </h1>
+        <p class="subtitle">اضغط على اسمك واسحب عيديتك ولونك المميز 🎁</p>
+        <div class="ornaments">
+            <span>🌙</span><span>⭐</span><span>🐏</span><span>⭐</span><span>🌙</span>
+        </div>
+    </header>
+
+    <!-- ===== بطاقات العائلة ===== -->
+    <main class="cards" id="cards">
+
+        <article class="card" data-member="fanu" style="--accent:#e0b34a; --accent-2:#fce8a4;">
+            <div class="card-glow"></div>
+            <div class="card-crown">حبيبتي</div>
+            <div class="avatar">
+                <div class="avatar-ring"></div>
+                <div class="avatar-emoji">👑</div>
             </div>
-            <input type="number" id="number" class="w-20 border border-gray-300 rounded-lg px-3 py-2 text-center text-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="15">
-        </div>
+            <h2 class="member-name">فنو</h2>
+            <p class="member-tag">ملكة القلب 💛</p>
+            <button class="draw-btn">
+                <span class="btn-shine"></span>
+                <span class="btn-text">✨ اسحبي عيديتك ✨</span>
+            </button>
+        </article>
 
-        <div class="mt-4">
-            <p class="text-lg font-medium">اختر رمز المتباينة:</p>
-            <div class="flex justify-center gap-4 mt-2">
-                <button class="btn-symbol" data-symbol="<">&lt;</button>
-                <button class="btn-symbol" data-symbol="≤">&le;</button>
-                <button class="btn-symbol" data-symbol=">">&gt;</button>
-                <button class="btn-symbol" data-symbol="≥">&ge;</button>
-                <button class="btn-symbol" data-symbol="≠">&ne;</button>
+        <article class="card" data-member="alma" style="--accent:#ec4899; --accent-2:#fbcfe8;">
+            <div class="card-glow"></div>
+            <div class="card-crown">١١ سنة</div>
+            <div class="avatar">
+                <div class="avatar-ring"></div>
+                <div class="avatar-emoji">🌸</div>
             </div>
-        </div>
+            <h2 class="member-name">ألما</h2>
+            <p class="member-tag">أميرة البيت 🌷</p>
+            <button class="draw-btn">
+                <span class="btn-shine"></span>
+                <span class="btn-text">🎁 اسحبي عيديتك 🎁</span>
+            </button>
+        </article>
 
-        <div class="mt-6 text-center">
-            <button id="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">إرسال الإجابة</button>
-            <button id="next-question" class="hidden bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 mt-4">السؤال التالي</button>
-            <button id="restart" class="hidden bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 mt-4">إعادة المحاولة</button>
-        </div>
+        <article class="card" data-member="aws" style="--accent:#3b82f6; --accent-2:#bfdbfe;">
+            <div class="card-glow"></div>
+            <div class="card-crown">٦ سنوات</div>
+            <div class="avatar">
+                <div class="avatar-ring"></div>
+                <div class="avatar-emoji">🦁</div>
+            </div>
+            <h2 class="member-name">أوس</h2>
+            <p class="member-tag">فارس البيت ⚔️</p>
+            <button class="draw-btn">
+                <span class="btn-shine"></span>
+                <span class="btn-text">🎁 اسحب عيديتك 🎁</span>
+            </button>
+        </article>
 
-        <div id="feedback" class="mt-4 text-center font-medium"></div>
     </main>
 
-    <footer class="mt-8">
-        <p>© 2025 جميع الحقوق محفوظة - أحمد ياسين</p>
+    <footer class="foot">
+        <p>مع حب من بابا 💚 — تقبل الله منا ومنكم</p>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- ===== نافذة السحب ===== -->
+    <div class="modal" id="modal" aria-hidden="true">
+        <div class="modal-bg"></div>
+        <div class="modal-card" id="modalCard">
+
+            <button class="close-btn" id="closeBtn" aria-label="إغلاق">✕</button>
+
+            <!-- المرحلة 1: صندوق الهدية -->
+            <section class="stage" id="stage-gift">
+                <h3 class="stage-title" id="welcomeText">يا هلا <span></span> 💚</h3>
+                <p class="stage-sub">اضغط على الصندوق لتفتحه...</p>
+                <button class="gift-box" id="giftBox" aria-label="افتح الصندوق">
+                    <div class="gift-bottom"></div>
+                    <div class="gift-lid"></div>
+                    <div class="gift-ribbon-v"></div>
+                    <div class="gift-ribbon-h"></div>
+                    <div class="gift-bow"></div>
+                    <div class="gift-sparkles">
+                        <span>✨</span><span>⭐</span><span>✨</span><span>💫</span>
+                    </div>
+                </button>
+                <p class="stage-hint">👆 اضغط على الصندوق</p>
+            </section>
+
+            <!-- المرحلة 2: عدّاد المبلغ -->
+            <section class="stage hidden" id="stage-amount">
+                <h3 class="stage-title">عيديتك هي...</h3>
+                <div class="amount-display">
+                    <div class="amount-coin">
+                        <div class="coin-face">
+                            <span class="amount-number" id="amountNumber">0</span>
+                            <span class="amount-currency">شيكل</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="amount-msg" id="amountMsg"></p>
+            </section>
+
+            <!-- المرحلة 3: عجلة الألوان -->
+            <section class="stage hidden" id="stage-color">
+                <h3 class="stage-title">والآن... لونك المميز 🎨</h3>
+                <p class="stage-sub">سلسلة الألوان تدور...</p>
+                <div class="color-wheel-wrap">
+                    <div class="color-pointer">▼</div>
+                    <div class="color-wheel" id="colorWheel"></div>
+                </div>
+                <div class="color-result hidden" id="colorResult">
+                    <div class="color-swatch" id="colorSwatch"></div>
+                    <h4 class="color-name" id="colorName"></h4>
+                </div>
+            </section>
+
+            <!-- المرحلة 4: التحدي النهائي -->
+            <section class="stage hidden" id="stage-final">
+                <div class="final-burst">🎉</div>
+                <h3 class="final-title">مبروووك!</h3>
+                <div class="prize-card">
+                    <div class="prize-row">
+                        <span class="prize-label">العيدية</span>
+                        <span class="prize-value" id="finalAmount">100 شيكل</span>
+                    </div>
+                    <div class="prize-divider"></div>
+                    <div class="prize-row">
+                        <span class="prize-label">اللون</span>
+                        <span class="prize-color" id="finalColor"></span>
+                    </div>
+                </div>
+                <div class="challenge">
+                    <div class="challenge-icon">🛍️</div>
+                    <p class="challenge-text">
+                        المهمة: اشتر/ي شي
+                        <strong id="finalColorText"></strong>
+                        تحبه/تحبيه من كل قلبك
+                        ويكون خاص فيك ✨
+                    </p>
+                </div>
+                <button class="restart-btn" id="restartBtn">
+                    <span>🎁 خلصنا — أغلق</span>
+                </button>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="app.js"></script>
 </body>
 </html>
