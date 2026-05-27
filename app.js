@@ -234,6 +234,8 @@ document.querySelectorAll('.card').forEach(card => {
 });
 
 // ===== فتح صندوق الهدية =====
+document.getElementById('spinBtn').addEventListener('click', spinWheel);
+
 giftBox.addEventListener('click', () => {
     if (giftBox.classList.contains('opening')) return;
     giftBox.classList.add('opening');
@@ -290,34 +292,59 @@ function startAmountReveal() {
 }
 
 // ===== المرحلة 3: عجلة الألوان =====
+let pendingAmount = 0;
+let spinning = false;
+
 function startColorReveal(amount) {
     showStage('color');
+    pendingAmount = amount;
+    spinning = false;
 
     const wheel = document.getElementById('colorWheel');
+    const btn = document.getElementById('spinBtn');
+    const result = document.getElementById('colorResult');
+    const sub = document.getElementById('colorSub');
+
+    // إعادة ضبط العجلة وإظهار الزر
+    wheel.style.transition = 'none';
+    wheel.style.transform = 'rotate(0deg)';
+    result.classList.add('hidden');
+    btn.disabled = false;
+    btn.style.display = '';
+    sub.textContent = 'اضغط على الزر ودوّر العجلة!';
+    // force reflow حتى يلتقط المتصفح التغيير قبل تطبيق الدوران لاحقاً
+    void wheel.offsetWidth;
+}
+
+function spinWheel() {
+    if (spinning) return;
+    spinning = true;
+
+    const wheel = document.getElementById('colorWheel');
+    const btn = document.getElementById('spinBtn');
+    const sub = document.getElementById('colorSub');
+
+    btn.disabled = true;
+    sub.textContent = 'تدور...';
+
     const colorIndex = Math.floor(Math.random() * COLORS.length);
     const chosen = COLORS[colorIndex];
 
     const sliceDeg = 360 / COLORS.length;
-    // الزاوية المطلوبة بحيث يستقر المؤشر العلوي على شريحة اللون
-    // المؤشر في الأعلى (0°). نريد منتصف الشريحة المختارة عند 0°
     const targetSliceCenter = colorIndex * sliceDeg + sliceDeg / 2;
-    const fullSpins = 5;
+    const fullSpins = 6 + Math.floor(Math.random() * 3); // 6-8 لفّات
     const finalRotation = fullSpins * 360 - targetSliceCenter;
 
-    // إعادة الضبط ثم التدوير
-    wheel.style.transition = 'none';
-    wheel.style.transform = 'rotate(0deg)';
-    requestAnimationFrame(() => {
-        wheel.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.16, 1)';
-        wheel.style.transform = `rotate(${finalRotation}deg)`;
-    });
+    // طبّق الدوران مع تأثير الانتقال
+    wheel.style.transition = 'transform 4.5s cubic-bezier(0.17, 0.67, 0.16, 1)';
+    wheel.style.transform = `rotate(${finalRotation}deg)`;
 
-    // أصوات tick أثناء دوران العجلة
+    // أصوات tick أثناء الدوران
     let ticks = 0;
     const tickTimer = setInterval(() => {
         tickSound();
         ticks++;
-        if (ticks > 22) clearInterval(tickTimer);
+        if (ticks > 24) clearInterval(tickTimer);
     }, 180);
 
     // كشف اللون بعد انتهاء الدوران
@@ -330,11 +357,13 @@ function startColorReveal(amount) {
         swatch.style.setProperty('--swatch-glow', chosen.hex);
         nameEl.textContent = chosen.name;
         result.classList.remove('hidden');
+        btn.style.display = 'none';
+        sub.textContent = 'اللون اللي طلعلك:';
         fanfare();
         spawnConfetti(80, [chosen.hex, '#e0b34a', '#fce8a4', '#fff8e7']);
 
-        setTimeout(() => showFinal(amount, chosen), 1800);
-    }, 4100);
+        setTimeout(() => showFinal(pendingAmount, chosen), 1800);
+    }, 4600);
 }
 
 // ===== المرحلة 4: النهاية والتحدي =====

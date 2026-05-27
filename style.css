@@ -692,6 +692,44 @@ body {
     box-shadow: 0 0 0 4px var(--eid-gold), 0 0 20px rgba(0,0,0,0.5);
 }
 
+.spin-btn {
+    margin: 22px auto 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    font-family: inherit;
+    font-size: 18px;
+    font-weight: 800;
+    color: #0b3d2e;
+    background: linear-gradient(135deg, #fce8a4, #e0b34a);
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    transition: transform 0.2s, box-shadow 0.3s, opacity 0.3s;
+    animation: pulse 2s ease-in-out infinite;
+}
+.spin-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+}
+.spin-btn:active { transform: translateY(0) scale(0.96); }
+.spin-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    animation: none;
+}
+.spin-icon {
+    display: inline-block;
+    font-size: 22px;
+    animation: spin 3s linear infinite;
+}
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 8px 25px rgba(0,0,0,0.3), 0 0 0 0 rgba(224,179,74,0.5); }
+    50%      { box-shadow: 0 8px 25px rgba(0,0,0,0.3), 0 0 0 12px rgba(224,179,74,0); }
+}
+
 .color-result {
     margin-top: 24px;
     animation: stageIn 0.6s ease-out;
